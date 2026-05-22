@@ -1,10 +1,46 @@
 [gd_scene format=3 uid="uid://dpfa8qdd585iw"]
 
+[ext_resource type="Script" uid="uid://cd03gdt85wbux" path="res://addons/VR_object_selection/scripts/rotate_node.gd" id="1_2yc5d"]
+[ext_resource type="Script" uid="uid://cie8k3fbwnwxw" path="res://addons/VR_object_selection/scripts/Listen_to_area3d.gd" id="1_vk3cr"]
+[ext_resource type="Script" uid="uid://dhddntm1st4ci" path="res://addons/VR_object_selection/scripts/group_whitelist.gd" id="1_w1ohr"]
+
 [sub_resource type="SphereMesh" id="SphereMesh_kekca"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kekca"]
+transparency = 1
+albedo_color = Color(0.11764706, 0.43137255, 0.3764706, 0.37254903)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_vk3cr"]
 
 [node name="Cursor" type="Node3D" unique_id=304932043]
 
-[node name="Size" type="Node3D" parent="." unique_id=1040771317]
+[node name="Size_sphere" type="Node3D" parent="." unique_id=1040771317]
 
-[node name="1x1 Sphere" type="MeshInstance3D" parent="Size" unique_id=2012392110]
+[node name="1x1 Sphere" type="MeshInstance3D" parent="Size_sphere" unique_id=2012392110]
 mesh = SubResource("SphereMesh_kekca")
+surface_material_override/0 = SubResource("StandardMaterial3D_kekca")
+
+[node name="Area3D" type="Area3D" parent="Size_sphere/1x1 Sphere" unique_id=2107439325]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Size_sphere/1x1 Sphere/Area3D" unique_id=25622586]
+shape = SubResource("SphereShape3D_vk3cr")
+
+[node name="Code" type="Node" parent="." unique_id=976025232]
+script = ExtResource("1_2yc5d")
+
+[node name="GroupWhitelist" type="Node" parent="Code" unique_id=2129851489]
+script = ExtResource("1_w1ohr")
+allowed_group = "Cube"
+metadata/_custom_type_script = "uid://dhddntm1st4ci"
+
+[node name="ListenToArea3D" type="Node" parent="Code" unique_id=1813615772 node_paths=PackedStringArray("observe_area")]
+script = ExtResource("1_vk3cr")
+observe_area = NodePath("../../Size_sphere/1x1 Sphere/Area3D")
+metadata/_custom_type_script = "uid://cie8k3fbwnwxw"
+
+[node name="RotateNode" type="Node" parent="Code" unique_id=770374794]
+script = ExtResource("1_2yc5d")
+metadata/_custom_type_script = "uid://cd03gdt85wbux"
+
+[connection signal="filtered_nodes" from="Code/GroupWhitelist" to="Code/RotateNode" method="_push_in_node"]
+[connection signal="object_array_status" from="Code/ListenToArea3D" to="Code/GroupWhitelist" method="_push_in_nod"]

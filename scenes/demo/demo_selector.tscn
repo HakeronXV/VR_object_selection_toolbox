@@ -2,12 +2,47 @@
 
 [ext_resource type="PackedScene" uid="uid://dpfa8qdd585iw" path="res://addons/VR_object_selection/scenes/cursor.tscn" id="1_41uxx"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_41uxx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sr2cg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_41uxx"]
+
 [node name="DemoSelector" type="Node3D" unique_id=224613377]
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=789368686]
+transform = Transform3D(0.008900363, 0, -0.9999604, 0, 1, 0, 0.9999604, 0, 0.008900363, -1.329251, 0, -0.0012270212)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1196149826]
 
 [node name="Cursor" parent="." unique_id=304932043 instance=ExtResource("1_41uxx")]
+
+[node name="size_cube" type="Node3D" parent="." unique_id=673658000]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 1.0905082)
+
+[node name="cube" type="MeshInstance3D" parent="size_cube" unique_id=1242013270 groups=["Cube"]]
+mesh = SubResource("BoxMesh_41uxx")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="size_cube/cube" unique_id=1756489543]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="size_cube/cube/StaticBody3D" unique_id=1632621186]
+shape = SubResource("BoxShape3D_sr2cg")
+
+[node name="area_cube" type="Node3D" parent="." unique_id=679544061]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, -0.9782605)
+
+[node name="cube" type="MeshInstance3D" parent="area_cube" unique_id=1300965594 groups=["Cube"]]
+mesh = SubResource("BoxMesh_41uxx")
+
+[node name="Area3D" type="Area3D" parent="area_cube/cube" unique_id=1199788778]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area_cube/cube/Area3D" unique_id=372142073]
+shape = SubResource("BoxShape3D_sr2cg")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=290055840]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.81683874, -0.17462826, 0.43156457)
+mesh = SubResource("CapsuleMesh_41uxx")
+
+[connection signal="has_a_node_changed" from="Cursor/Code/ListenToArea3D" to="MeshInstance3D" method="set_visible"]
 
 [editable path="Cursor"]
