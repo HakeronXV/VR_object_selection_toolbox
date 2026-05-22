@@ -2,9 +2,53 @@
 
 [ext_resource type="PackedScene" uid="uid://dpfa8qdd585iw" path="res://addons/VR_object_selection/scenes/cursor.tscn" id="1_41uxx"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_41uxx"]
+[sub_resource type="Animation" id="Animation_41uxx"]
+resource_name = "Left_right"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 1.0339007), Vector3(0, 0, -1.0266976)]
+}
+
+[sub_resource type="Animation" id="Animation_sr2cg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 1.0339007)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1v7sg"]
+_data = {
+&"Left_right": SubResource("Animation_41uxx"),
+&"RESET": SubResource("Animation_sr2cg")
+}
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sr2cg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_41uxx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_41uxx"]
+albedo_color = Color(0.9961235, 0.36768427, 0.5543483, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sr2cg"]
+albedo_color = Color(0.7058824, 0.91764706, 0, 1)
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_41uxx"]
 
@@ -16,28 +60,35 @@ transform = Transform3D(0.008900363, 0, -0.9999604, 0, 1, 0, 0.9999604, 0, 0.008
 [node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1196149826]
 
 [node name="Cursor" parent="." unique_id=304932043 instance=ExtResource("1_41uxx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.0339007)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Cursor" unique_id=185785097]
+libraries/ = SubResource("AnimationLibrary_1v7sg")
+autoplay = &"Left_right"
 
 [node name="size_cube" type="Node3D" parent="." unique_id=673658000]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 1.0905082)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 1.0198346)
 
-[node name="cube" type="MeshInstance3D" parent="size_cube" unique_id=1242013270 groups=["Cube"]]
-mesh = SubResource("BoxMesh_41uxx")
+[node name="StaticBody3D" type="StaticBody3D" parent="size_cube" unique_id=1756489543 groups=["Cube"]]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="size_cube/cube" unique_id=1756489543]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="size_cube/cube/StaticBody3D" unique_id=1632621186]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="size_cube/StaticBody3D" unique_id=1632621186]
 shape = SubResource("BoxShape3D_sr2cg")
+
+[node name="cube" type="MeshInstance3D" parent="size_cube/StaticBody3D" unique_id=1242013270]
+mesh = SubResource("BoxMesh_41uxx")
+surface_material_override/0 = SubResource("StandardMaterial3D_41uxx")
 
 [node name="area_cube" type="Node3D" parent="." unique_id=679544061]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, -0.9782605)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, -0.9229922)
 
-[node name="cube" type="MeshInstance3D" parent="area_cube" unique_id=1300965594 groups=["Cube"]]
-mesh = SubResource("BoxMesh_41uxx")
+[node name="Area3D" type="Area3D" parent="area_cube" unique_id=1199788778 groups=["Cube"]]
 
-[node name="Area3D" type="Area3D" parent="area_cube/cube" unique_id=1199788778]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="area_cube/cube/Area3D" unique_id=372142073]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="area_cube/Area3D" unique_id=372142073]
 shape = SubResource("BoxShape3D_sr2cg")
+
+[node name="cube" type="MeshInstance3D" parent="area_cube/Area3D" unique_id=1300965594]
+mesh = SubResource("BoxMesh_41uxx")
+surface_material_override/0 = SubResource("StandardMaterial3D_sr2cg")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=290055840]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.81683874, -0.17462826, 0.43156457)
