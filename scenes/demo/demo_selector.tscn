@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cgxhv7ykc82pl"]
+
+[ext_resource type="PackedScene" uid="uid://dpfa8qdd585iw" path="res://addons/VR_object_selection/scenes/cursor.tscn" id="1_41uxx"]
+
+[node name="DemoSelector" type="Node3D" unique_id=224613377]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=789368686]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1196149826]
+
+[node name="Cursor" parent="." unique_id=304932043 instance=ExtResource("1_41uxx")]
+
+[editable path="Cursor"]

@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://dpfa8qdd585iw"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_kekca"]
+
+[node name="Cursor" type="Node3D" unique_id=304932043]
+
+[node name="Size" type="Node3D" parent="." unique_id=1040771317]
+
+[node name="1x1 Sphere" type="MeshInstance3D" parent="Size" unique_id=2012392110]
+mesh = SubResource("SphereMesh_kekca")
